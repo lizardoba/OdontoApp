@@ -1,4 +1,3 @@
-<!-- 👉 Copia TODO este contenido y guarda como index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,68 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OdontoApp — DentiStudio</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦷</text></svg>">
 </head>
 <body>
   <div class="app">
+    <!-- 🧭 Header Global -->
     <header class="app-header">
       <div class="header-logo">
         <span class="header-icon">🦷</span>
         <h1>OdontoApp</h1>
-        <p>DentiStudio | Ayacucho</p>
+        <p>DentiStudio | Ayacucho, Huamanga</p>
       </div>
       <nav class="app-tabs">
-        <button class="tab-btn active" data-tab="gestor">Gestor de Pacientes</button>
-        <button class="tab-btn" data-tab="moyers">Moyers & T&J</button>
-        <button class="tab-btn" data-tab="discrepancia">Discrepancia + Bolton</button>
-        <button class="tab-btn" data-tab="catalogo">Catálogo de Servicios</button>
+        <button class="tab-btn active" data-tab="gestor">👥 Pacientes</button>
+        <button class="tab-btn" data-tab="moyers">📐 Moyers & T&J</button>
+        <button class="tab-btn" data-tab="discrepancia">🦷 Discrepancia + Bolton</button>
+        <button class="tab-btn" data-tab="catalogo">💰 Servicios</button>
+        <button class="btn-primary" onclick="nuevaCita()">📅 Nueva Cita</button>
       </nav>
     </header>
 
+    <!-- 📄 Contenido Principal -->
     <main class="app-content">
-      <!-- ✅ Sección 1: Gestor de Pacientes -->
+      <!-- ✅ Módulo 1: Gestor de Pacientes -->
       <section id="gestor" class="tab-content active">
         <div class="container">
-          <div class="header">
-            <div class="header-content">
-              <h1>🏥 Gestor de Pacientes — DentiStudio</h1>
-              <p>Sistema profesional de gestión con sincronización GitHub</p>
-            </div>
-            <div class="github-sync">
-              <button id="btnSync" class="btn-sync">🔄 Sincronizar GitHub</button>
-              <span id="statusSync" class="status-sync"></span>
-            </div>
+          <div class="header-section">
+            <h1>🏥 Gestor de Pacientes — DentiStudio</h1>
+            <p>Sistema clínico con historial, búsqueda y exportación</p>
+          </div>
+
+          <div class="alert alert-info" id="alertConfig" style="display: none;">
+            <strong>⚙️ Configuración:</strong> Token de GitHub no guardado.
+            <button onclick="mostrarConfig()" class="btn-link">Configurar</button>
           </div>
 
           <section class="github-config" id="githubConfig" style="display: none;">
-            <h3>Configuración de GitHub</h3>
+            <h3>🔐 Configuración de GitHub (opcional)</h3>
             <div class="form-group">
-              <label>Token Personal de GitHub (PAT):</label>
+              <label>Token Personal (PAT):</label>
               <input type="password" id="githubToken" placeholder="ghp_..." />
             </div>
             <div class="form-group">
-              <label>Usuario GitHub:</label>
+              <label>Usuario:</label>
               <input type="text" id="githubUser" placeholder="tu-usuario" />
             </div>
             <div class="form-group">
-              <label>Nombre del Repositorio:</label>
+              <label>Repositorio:</label>
               <input type="text" id="githubRepo" value="odontoapp-dentistudio" />
             </div>
             <div class="btn-group">
-              <button onclick="guardarConfigGitHub()" class="btn btn-primary">Guardar Configuración</button>
-              <button onclick="ocultarConfig()" class="btn btn-secondary">Cancelar</button>
+              <button onclick="guardarConfigGitHub()" class="btn btn-primary">✅ Guardar</button>
+              <button onclick="ocultarConfig()" class="btn btn-secondary">❌ Cancelar</button>
             </div>
           </section>
 
-          <div class="alert alert-info" style="display: none;" id="alertConfig">
-            <strong>⚙️ Configuración Requerida:</strong> Configura tu token de GitHub para sincronizar datos.
-            <button onclick="mostrarConfig()" class="btn-link">Configurar Ahora</button>
-          </div>
-
-          <div class="content">
+          <div class="two-columns">
+            <!-- 🔍 Búsqueda -->
             <section class="search-section">
               <h2>🔍 Búsqueda de Pacientes</h2>
               <div class="search-container">
-                <input type="text" id="searchInput" class="search-input" placeholder="Busca por código, nombre o apellido..." />
+                <input type="text" id="searchInput" class="search-input" placeholder="Código, nombre o apellido..." />
                 <select id="tipoSearch" class="search-select">
                   <option value="todos">Todos</option>
                   <option value="codigo">Código</option>
@@ -78,105 +76,116 @@
               <div id="resultadosBusqueda" class="search-results"></div>
             </section>
 
-            <div class="two-columns">
-              <section class="form-section">
-                <h2>➕ Nuevo Paciente</h2>
-                <form id="formPaciente" class="form-paciente">
-                  <div class="form-group">
-                    <label>Código de Paciente:</label>
-                    <input type="text" id="codigo" placeholder="P-001" required />
-                  </div>
-                  <div class="form-group">
-                    <label>Nombre:</label>
-                    <input type="text" id="nombre" placeholder="Juan" required />
-                  </div>
-                  <div class="form-group">
-                    <label>Apellido:</label>
-                    <input type="text" id="apellido" placeholder="Pérez" required />
-                  </div>
-                  <div class="form-group">
-                    <label>Email:</label>
-                    <input type="email" id="email" placeholder="correo@ejemplo.com" />
-                  </div>
-                  <div class="form-group">
-                    <label>Teléfono:</label>
-                    <input type="tel" id="telefono" placeholder="+51 9 XXXX XXXX" />
-                  </div>
-                  <div class="form-group">
-                    <label>Diagnóstico Clínico:</label>
-                    <textarea id="diagnostico" placeholder="Describe el diagnóstico..."></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label>Tipo de Tratamiento:</label>
-                    <select id="tratamiento">
-                      <option>Ortodoncia Fija</option>
-                      <option>Ortodoncia Removible</option>
-                      <option>Profilaxis</option>
-                      <option>Otro</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label>Estado:</label>
-                    <select id="estado">
-                      <option>Activo</option>
-                      <option>Inactivo</option>
-                      <option>Completado</option>
-                    </select>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Guardar Paciente</button>
-                </form>
-              </section>
-
-              <section class="stats-section">
-                <h2>📊 Estadísticas</h2>
-                <div class="stats-container">
-                  <div class="stat-card">
-                    <h3 id="totalPacientes">0</h3>
-                    <p>Pacientes Totales</p>
-                  </div>
-                  <div class="stat-card">
-                    <h3 id="pacientesActivos">0</h3>
-                    <p>Pacientes Activos</p>
-                  </div>
-                  <div class="stat-card">
-                    <h3 id="pacientesCompletados">0</h3>
-                    <p>Tratamientos Completados</p>
-                  </div>
+            <!-- ➕ Formulario -->
+            <section class="form-section">
+              <h2>➕ Nuevo Paciente</h2>
+              <form id="formPaciente" class="form-paciente">
+                <div class="form-group">
+                  <label>Código:</label>
+                  <input type="text" id="codigo" placeholder="P-001" required />
                 </div>
-                <div class="buttons-export">
-                  <button onclick="exportarJSON()" class="btn btn-secondary">📥 Exportar JSON</button>
-                  <button onclick="importarJSON()" class="btn btn-secondary">📤 Importar JSON</button>
+                <div class="form-group">
+                  <label>Nombre:</label>
+                  <input type="text" id="nombre" placeholder="Juan" required />
                 </div>
-              </section>
-            </div>
-
-            <section class="patients-section">
-              <h2>👥 Lista de Pacientes</h2>
-              <div id="listaPacientes" class="patients-list">
-                <p class="empty-message">No hay pacientes registrados</p>
-              </div>
+                <div class="form-group">
+                  <label>Apellido:</label>
+                  <input type="text" id="apellido" placeholder="Pérez" required />
+                </div>
+                <div class="form-group">
+                  <label>Email:</label>
+                  <input type="email" id="email" placeholder="correo@ejemplo.com" />
+                </div>
+                <div class="form-group">
+                  <label>Teléfono:</label>
+                  <input type="tel" id="telefono" placeholder="+51 9 XXXX XXXX" />
+                </div>
+                <div class="form-group">
+                  <label>Edad:</label>
+                  <input type="number" id="edad" min="0" max="120" placeholder="Ej: 12" />
+                </div>
+                <div class="form-group">
+                  <label>Diagnóstico:</label>
+                  <textarea id="diagnostico" placeholder="Apiñamiento moderado, clase I"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Tratamiento:</label>
+                  <select id="tratamiento">
+                    <option>Ortodoncia Fija</option>
+                    <option>Ortodoncia Removible</option>
+                    <option>Profilaxis</option>
+                    <option>Blanqueamiento</option>
+                    <option>Otro</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Estado:</label>
+                  <select id="estado">
+                    <option>Activo</option>
+                    <option>Inactivo</option>
+                    <option>Completado</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">💾 Guardar Paciente</button>
+              </form>
             </section>
           </div>
+
+          <!-- 📊 Estadísticas -->
+          <section class="stats-section">
+            <h2>📊 Estadísticas Clínicas</h2>
+            <div class="stats-container">
+              <div class="stat-card">
+                <h3 id="totalPacientes">0</h3>
+                <p>Pacientes Totales</p>
+              </div>
+              <div class="stat-card">
+                <h3 id="pacientesActivos">0</h3>
+                <p>Activos</p>
+              </div>
+              <div class="stat-card">
+                <h3 id="promedioEdad">—</h3>
+                <p>Edad Promedio</p>
+              </div>
+            </div>
+            <div class="buttons-export">
+              <button onclick="exportarJSON()" class="btn btn-secondary">📥 Exportar JSON</button>
+              <button onclick="importarJSON()" class="btn btn-secondary">📤 Importar JSON</button>
+              <button onclick="enviarWhatsApp()" class="btn btn-whatsapp">📱 WhatsApp</button>
+            </div>
+          </section>
+
+          <!-- 👥 Lista -->
+          <section class="patients-section">
+            <h2>📋 Lista de Pacientes</h2>
+            <div id="listaPacientes" class="patients-list">
+              <p class="empty-message">No hay pacientes registrados</p>
+            </div>
+          </section>
         </div>
         <input type="file" id="fileInput" style="display: none;" accept=".json" />
       </section>
 
-      <!-- 📏 Sección 2: Moyers & T&J -->
+      <!-- 📏 Módulo 2: Moyers & Tanaka-Johnston -->
       <section id="moyers" class="tab-content">
         <div class="analysis-container">
           <div class="header-analysis">
-            <h1>📐 Análisis de Moyers y Tanaka & Johnston — DentiStudio</h1>
-            <p>Predicción de espacio en dentición mixta — Ortodoncia Preventiva</p>
+            <h1>📐 Análisis Moyers & Tanaka-Johnston — DentiStudio</h1>
+            <p>Predicción de espacio en dentición mixta (niños/adolescentes)</p>
           </div>
           <div class="content-analysis">
             <div class="card">
-              <h2>Datos del Análisis</h2>
+              <h2>📊 Datos del Paciente y Modelo</h2>
               <div class="form-group">
-                <label>Suma de incisivos inferiores (mm):</label>
-                <input type="number" id="inci_mm" step="0.1" placeholder="Ej: 24.5" min="20" />
+                <label>Nombre del Paciente:</label>
+                <input type="text" id="moyers-patient" placeholder="Ej: Carlos Mendoza" />
               </div>
               <div class="form-group">
-                <label>Sexo del paciente:</label>
+                <label>Suma de incisivos inferiores (31+32+41+42) en mm:</label>
+                <input type="number" id="inci_mm" step="0.1" placeholder="Ej: 24.5" min="20" max="30" />
+              </div>
+              <div class="form-group">
+                <label>Sexo:</label>
                 <select id="sexo">
                   <option value="varon">Varón</option>
                   <option value="mujer">Mujer</option>
@@ -193,247 +202,247 @@
                 <label>Espacio disponible en modelo (mm):</label>
                 <input type="number" id="espacio_modelo" step="0.1" placeholder="Ej: 17.8" />
               </div>
-              <button onclick="calcularMoyers()" class="btn btn-primary">Calcular Análisis</button>
+              <button onclick="calcularMoyers()" class="btn btn-primary">🔍 Calcular Análisis</button>
               <div id="resultadosMoyers"></div>
+              <div id="diagnosticoIntegrado" class="recommendation" style="display: none;"></div>
             </div>
+
             <div class="card">
-              <h2>Instrucciones</h2>
+              <h2>📘 Guía Clínica</h2>
               <div class="instructions">
-                <p><strong>1.</strong> Mide el ancho mesio-distal de los 4 incisivos inferiores (31–42).</p>
-                <p><strong>2.</strong> Suma y colócalo arriba.</p>
-                <p><strong>5.</strong> Haz clic en calcular → obtén predicciones de Moyers y Tanaka & Johnston.</p>
+                <p><strong>1.</strong> Mida los 4 incisivos inferiores permanentes (31,32,41,42).</p>
+                <p><strong>2.</strong> Sume sus anchos mesiodistales (mm).</p>
+                <p><strong>3.</strong> Mida el espacio disponible desde la alineación de incisivos hasta el molar permanente.</p>
+                <p><strong>4.</strong> Use el percentil 75% para tratamiento preventivo.</p>
                 <hr />
-                <p><strong>✅ Positivo:</strong> Hay espacio suficiente</p>
-                <p><strong>⚠️ Negativo:</strong> Apiñamiento probable</p>
+                <p><strong style="color: var(--color-success);">✅ Positivo:</strong> Espacio suficiente</p>
+                <p><strong style="color: var(--color-error);">⚠️ Negativo:</strong> Apiñamiento probable</p>
               </div>
             </div>
+
             <div class="table-section">
-              <h2>Tabla Moyers — Percentil 75%</h2>
+              <h2>📊 Tabla Moyers — Percentil 75% y 90%</h2>
               <table>
-                <thead><tr><th>Suma Inc. Inf.</th><th>Sup. Varón</th><th>Sup. Mujer</th><th>Inf. Varón</th><th>Inf. Mujer</th></tr></thead>
+                <thead>
+                  <tr>
+                    <th rowspan="2">Suma Inc. Inf.</th>
+                    <th colspan="2">Percentil 75%</th>
+                    <th colspan="2">Percentil 90%</th>
+                  </tr>
+                  <tr>
+                    <th>Sup</th><th>Inf</th><th>Sup</th><th>Inf</th>
+                  </tr>
+                </thead>
                 <tbody>
-                  <tr><td>22.0</td><td>19.2</td><td>18.0</td><td>18.7</td><td>18.0</td></tr>
-                  <tr><td>23.0</td><td>20.6</td><td>19.2</td><td>19.8</td><td>19.2</td></tr>
-                  <tr><td>24.0</td><td>21.8</td><td>20.4</td><td>20.9</td><td>20.4</td></tr>
-                  <tr><td>24.5</td><td>22.8</td><td>21.8</td><td>22.5</td><td>22.1</td></tr>
-                  <tr><td>25.0</td><td>23.3</td><td>21.5</td><td>23.0</td><td>22.3</td></tr>
-                  <tr><td>25.5</td><td>24.6</td><td>22.8</td><td>24.2</td><td>23.5</td></tr>
-                  <tr><td>26.0</td><td>25.4</td><td>23.8</td><td>25.0</td><td>24.4</td></tr>
+                  <tr><td>22.0</td><td>19.2</td><td>18.7</td><td>20.1</td><td>19.5</td></tr>
+                  <tr><td>23.0</td><td>20.6</td><td>19.8</td><td>21.8</td><td>20.9</td></tr>
+                  <tr><td>24.0</td><td>21.8</td><td>20.9</td><td>23.2</td><td>22.1</td></tr>
+                  <tr><td>24.5</td><td>22.8</td><td>22.5</td><td>24.5</td><td>24.0</td></tr>
+                  <tr><td>25.0</td><td>23.3</td><td>23.0</td><td>25.2</td><td>25.0</td></tr>
+                  <tr><td>25.5</td><td>24.6</td><td>24.2</td><td>26.8</td><td>26.5</td></tr>
+                  <tr><td>26.0</td><td>25.4</td><td>25.0</td><td>27.9</td><td>27.5</td></tr>
                 </tbody>
               </table>
             </div>
+
+            <div class="card">
+              <h2>📈 Gráfico Comparativo</h2>
+              <div id="graficoMoyers" style="height: 200px; background: var(--color-surface); border-radius: var(--radius-base); margin-top: var(--space-16); display: flex; align-items: center; justify-content: center;">
+                <p style="color: var(--color-text-secondary);">Ingrese datos para ver el gráfico</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- 🦷 Sección 3: Discrepancia + Bolton -->
+      <!-- 🦷 Módulo 3: Discrepancia + Bolton (Permanente + Mixta) -->
       <section id="discrepancia" class="tab-content">
         <div class="app-container">
           <div class="header-app">
-            <h1>OrtoApp — Discrepancia Dentaria & Bolton — DentiStudio</h1>
-            <p>Cálculo Clínico para Dentición Permanente</p>
+            <h1>🦷 Discrepancia Dentaria & Bolton — DentiStudio</h1>
+            <p>Cálculos clínicos para dentición permanente y mixta</p>
           </div>
 
-          <div class="content-grid">
-            <div class="card">
-              <h3>Datos del Paciente</h3>
-              <div class="form-group">
-                <label class="form-label">Nombre del Paciente</label>
-                <input type="text" class="form-input" id="patient-name" placeholder="Ingrese el nombre del paciente">
-              </div>
+          <!-- Tabs Dentición -->
+          <div class="dentition-tabs">
+            <button class="tab-button active" data-tab-type="permanent">Dentición Permanente</button>
+            <button class="tab-button" data-tab-type="mixed">Dentición Mixta</button>
+          </div>
 
-              <div class="button-group">
-                <button class="btn btn-secondary" style="background-color: var(--color-error); color: var(--color-btn-primary-text);" onclick="clearAllData()">Limpiar Todo</button>
-              </div>
-
-              <h3>Parámetros de Entrada</h3>
-              <div class="teeth-two-columns">
-                <div class="teeth-column">
-                  <h4 class="column-title">ARCADA SUPERIOR</h4>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">2ª Premolar Derecha</label>
-                    <input type="number" class="form-input" id="tooth-sup-1" step="0.1" placeholder="7.0">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">1ª Premolar Derecha</label>
-                    <input type="number" class="form-input" id="tooth-sup-2" step="0.1" placeholder="7.2">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">Canino Derecho</label>
-                    <input type="number" class="form-input" id="tooth-sup-3" step="0.1" placeholder="7.8">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">Incisivo Lateral Derecho</label>
-                    <input type="number" class="form-input" id="tooth-sup-4" step="0.1" placeholder="6.5">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">Incisivo Central Derecho</label>
-                    <input type="number" class="form-input" id="tooth-sup-5" step="0.1" placeholder="8.5">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">Incisivo Central Izquierdo</label>
-                    <input type="number" class="form-input" id="tooth-sup-6" step="0.1" placeholder="8.5">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">Incisivo Lateral Izquierdo</label>
-                    <input type="number" class="form-input" id="tooth-sup-7" step="0.1" placeholder="6.5">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">Canino Izquierdo</label>
-                    <input type="number" class="form-input" id="tooth-sup-8" step="0.1" placeholder="7.8">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">1ª Premolar Izquierda</label>
-                    <input type="number" class="form-input" id="tooth-sup-9" step="0.1" placeholder="7.2">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">2ª Premolar Izquierda</label>
-                    <input type="number" class="form-input" id="tooth-sup-10" step="0.1" placeholder="7.0">
-                  </div>
-                </div>
-                <div class="teeth-column">
-                  <h4 class="column-title">ARCADA INFERIOR</h4>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">2ª Premolar Derecha</label>
-                    <input type="number" class="form-input" id="tooth-inf-1" step="0.1" placeholder="6.8">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">1ª Premolar Derecha</label>
-                    <input type="number" class="form-input" id="tooth-inf-2" step="0.1" placeholder="7.0">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">Canino Derecho</label>
-                    <input type="number" class="form-input" id="tooth-inf-3" step="0.1" placeholder="6.5">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">Incisivo Lateral Derecho</label>
-                    <input type="number" class="form-input" id="tooth-inf-4" step="0.1" placeholder="5.8">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">Incisivo Central Derecho</label>
-                    <input type="number" class="form-input" id="tooth-inf-5" step="0.1" placeholder="5.2">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">Incisivo Central Izquierdo</label>
-                    <input type="number" class="form-input" id="tooth-inf-6" step="0.1" placeholder="5.2">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">Incisivo Lateral Izquierdo</label>
-                    <input type="number" class="form-input" id="tooth-inf-7" step="0.1" placeholder="5.8">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">Canino Izquierdo</label>
-                    <input type="number" class="form-input" id="tooth-inf-8" step="0.1" placeholder="6.5">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">1ª Premolar Izquierda</label>
-                    <input type="number" class="form-input" id="tooth-inf-9" step="0.1" placeholder="7.0">
-                  </div>
-                  <div class="tooth-input-group">
-                    <label class="form-label" style="font-size: var(--font-size-xs);">2ª Premolar Izquierda</label>
-                    <input type="number" class="form-input" id="tooth-inf-10" step="0.1" placeholder="6.8">
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label">Espacios Disponibles (mm)</label>
-                <div class="space-inputs">
-                  <div>
-                    <label class="form-label">Superior</label>
-                    <input type="number" class="form-input" id="perm-espacio-sup" step="0.1" placeholder="Ej: 75.0">
-                  </div>
-                  <div>
-                    <label class="form-label">Inferior</label>
-                    <input type="number" class="form-input" id="perm-espacio-inf" step="0.1" placeholder="Ej: 65.0">
-                  </div>
-                </div>
-              </div>
-
-              <div class="bolton-section">
-                <h3>Análisis de Bolton</h3>
+          <!-- Dentición Permanente -->
+          <div id="permanent-tab" class="dentition-content active">
+            <div class="content-grid">
+              <div class="card">
+                <h3>🧑‍⚕️ Datos del Paciente</h3>
                 <div class="form-group">
-                  <label class="form-label">6 Dientes Anteriores (suma automática)</label>
-                  <div class="bolton-inputs">
-                    <div><input type="number" class="form-input" id="bolton-ant-sup" readonly></div>
-                    <div><input type="number" class="form-input" id="bolton-ant-inf" readonly></div>
+                  <label>Nombre:</label>
+                  <input type="text" class="form-input" id="perm-patient" placeholder="Nombre del paciente">
+                </div>
+
+                <h3 style="margin-top: var(--space-24);">📏 Anchos Mesiodistales (mm)</h3>
+                <div class="teeth-two-columns">
+                  <div class="teeth-column">
+                    <h4 class="column-title">ARCADA SUPERIOR</h4>
+                    <!-- 10 inputs (16→26) -->
+                    <div class="tooth-input-group"><label>2ª Premolar Der</label><input type="number" class="form-input" id="perm-sup-1" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>1ª Premolar Der</label><input type="number" class="form-input" id="perm-sup-2" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>Canino Der</label><input type="number" class="form-input" id="perm-sup-3" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>Inc. Lat. Der</label><input type="number" class="form-input" id="perm-sup-4" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>Inc. Cent. Der</label><input type="number" class="form-input" id="perm-sup-5" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>Inc. Cent. Izq</label><input type="number" class="form-input" id="perm-sup-6" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>Inc. Lat. Izq</label><input type="number" class="form-input" id="perm-sup-7" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>Canino Izq</label><input type="number" class="form-input" id="perm-sup-8" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>1ª Premolar Izq</label><input type="number" class="form-input" id="perm-sup-9" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>2ª Premolar Izq</label><input type="number" class="form-input" id="perm-sup-10" step="0.1" oninput="calculatePermanent()"></div>
+                  </div>
+                  <div class="teeth-column">
+                    <h4 class="column-title">ARCADA INFERIOR</h4>
+                    <!-- 10 inputs (36→46) -->
+                    <div class="tooth-input-group"><label>2ª Premolar Der</label><input type="number" class="form-input" id="perm-inf-1" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>1ª Premolar Der</label><input type="number" class="form-input" id="perm-inf-2" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>Canino Der</label><input type="number" class="form-input" id="perm-inf-3" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>Inc. Lat. Der</label><input type="number" class="form-input" id="perm-inf-4" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>Inc. Cent. Der</label><input type="number" class="form-input" id="perm-inf-5" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>Inc. Cent. Izq</label><input type="number" class="form-input" id="perm-inf-6" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>Inc. Lat. Izq</label><input type="number" class="form-input" id="perm-inf-7" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>Canino Izq</label><input type="number" class="form-input" id="perm-inf-8" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>1ª Premolar Izq</label><input type="number" class="form-input" id="perm-inf-9" step="0.1" oninput="calculatePermanent()"></div>
+                    <div class="tooth-input-group"><label>2ª Premolar Izq</label><input type="number" class="form-input" id="perm-inf-10" step="0.1" oninput="calculatePermanent()"></div>
                   </div>
                 </div>
+
                 <div class="form-group">
-                  <label class="form-label">Primeras Molares</label>
-                  <div class="bolton-inputs">
-                    <div>
-                      <label class="form-label" style="font-size:var(--font-size-xs)">Sup. Derecha</label>
-                      <input type="number" class="form-input" id="bolton-mol-sup-der" step="0.1" placeholder="10.5">
-                    </div>
-                    <div>
-                      <label class="form-label" style="font-size:var(--font-size-xs)">Sup. Izq.</label>
-                      <input type="number" class="form-input" id="bolton-mol-sup-izq" step="0.1" placeholder="10.5">
-                    </div>
-                    <div>
-                      <label class="form-label" style="font-size:var(--font-size-xs)">Inf. Derecha</label>
-                      <input type="number" class="form-input" id="bolton-mol-inf-der" step="0.1" placeholder="11.0">
-                    </div>
-                    <div>
-                      <label class="form-label" style="font-size:var(--font-size-xs)">Inf. Izq.</label>
-                      <input type="number" class="form-input" id="bolton-mol-inf-izq" step="0.1" placeholder="11.0">
+                  <label>Espacio Disponible (mm)</label>
+                  <div class="space-inputs">
+                    <div><label>Superior</label><input type="number" class="form-input" id="perm-espacio-sup" step="0.1" oninput="calculatePermanent()"></div>
+                    <div><label>Inferior</label><input type="number" class="form-input" id="perm-espacio-inf" step="0.1" oninput="calculatePermanent()"></div>
+                  </div>
+                </div>
+
+                <div class="bolton-section">
+                  <h3>⚖️ Análisis de Bolton (Auto-cálculo)</h3>
+                  <div class="form-group">
+                    <label>6 Dientes Anteriores (suma automática)</label>
+                    <div class="bolton-inputs">
+                      <div><label>Superior</label><input type="number" class="form-input" id="bolton-ant-sup" readonly></div>
+                      <div><label>Inferior</label><input type="number" class="form-input" id="bolton-ant-inf" readonly></div>
                     </div>
                   </div>
+                  <div class="form-group">
+                    <label>1ªs Molares (mm)</label>
+                    <div class="bolton-inputs">
+                      <div><input type="number" class="form-input" id="bolton-mol-sup-der" step="0.1" placeholder="10.5" oninput="calculatePermanent()"></div>
+                      <div><input type="number" class="form-input" id="bolton-mol-sup-izq" step="0.1" placeholder="10.5" oninput="calculatePermanent()"></div>
+                      <div><input type="number" class="form-input" id="bolton-mol-inf-der" step="0.1" placeholder="11.0" oninput="calculatePermanent()"></div>
+                      <div><input type="number" class="form-input" id="bolton-mol-inf-izq" step="0.1" placeholder="11.0" oninput="calculatePermanent()"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="button-group">
+                  <button class="btn btn-secondary" onclick="clearAllData()">🗑️ Limpiar Todo</button>
+                  <button class="btn btn-secondary" onclick="loadPermanentExample()">🧪 Ejemplo</button>
                 </div>
               </div>
 
-              <button class="btn btn-secondary" onclick="loadPermanentExample()">Cargar Ejemplo</button>
-            </div>
-
-            <div class="card">
-              <h3>Resultados</h3>
-              <div id="results-container">
+              <div class="card">
+                <h3>📊 Resultados</h3>
                 <div class="result-item">
-                  <div class="result-label">Espacio Requerido Superior</div>
-                  <div class="result-value" id="perm-required-sup">-- mm</div>
+                  <div class="result-label">Esp. Req. Superior</div>
+                  <div class="result-value" id="perm-required-sup">— mm</div>
                 </div>
                 <div class="result-item">
-                  <div class="result-label">Discrepancia Superior</div>
-                  <div class="result-value" id="perm-discrepancy-sup">-- mm</div>
+                  <div class="result-label">Discrepancia Sup.</div>
+                  <div class="result-value" id="perm-discrepancy-sup">— mm</div>
                   <div class="discrepancy-bar"><div class="discrepancy-fill" id="perm-bar-sup"></div></div>
                 </div>
                 <div class="result-item">
-                  <div class="result-label">Espacio Requerido Inferior</div>
-                  <div class="result-value" id="perm-required-inf">-- mm</div>
+                  <div class="result-label">Esp. Req. Inferior</div>
+                  <div class="result-value" id="perm-required-inf">— mm</div>
                 </div>
                 <div class="result-item">
-                  <div class="result-label">Discrepancia Inferior</div>
-                  <div class="result-value" id="perm-discrepancy-inf">-- mm</div>
+                  <div class="result-label">Discrepancia Inf.</div>
+                  <div class="result-value" id="perm-discrepancy-inf">— mm</div>
                   <div class="discrepancy-bar"><div class="discrepancy-fill" id="perm-bar-inf"></div></div>
                 </div>
                 <div class="recommendation">
-                  <div class="recommendation-title">Recomendación Clínica</div>
-                  <div class="recommendation-text" id="perm-recommendation">Ingrese los datos para ver la recomendación</div>
+                  <div class="recommendation-title">🩺 Recomendación Clínica</div>
+                  <div class="recommendation-text" id="perm-recommendation">Ingrese datos para diagnóstico</div>
                 </div>
                 <div id="bolton-results"></div>
+                <div class="button-group">
+                  <button class="btn btn-primary" onclick="saveResultsLocal()">💾 Guardar Local</button>
+                  <button class="btn btn-secondary" onclick="generatePDFReport()">📄 Generar PDF</button>
+                </div>
               </div>
-              <div class="button-group">
-                <button class="btn btn-primary" onclick="saveResultsLocally()">Guardar Resultados</button>
+            </div>
+          </div>
+
+          <!-- Dentición Mixta (nuevo) -->
+          <div id="mixed-tab" class="dentition-content">
+            <div class="content-grid">
+              <div class="card">
+                <h3>🧒 Datos del Paciente</h3>
+                <div class="form-group">
+                  <label>Nombre:</label>
+                  <input type="text" class="form-input" id="mix-patient" placeholder="Nombre del paciente">
+                </div>
+                <h3 style="margin-top: var(--space-24);">📏 Dientes Permanentes en Arcada Superior</h3>
+                <div class="form-group">
+                  <label>Incisivos Centrales y Laterales + Caninos (mm)</label>
+                  <input type="number" class="form-input" id="mix-sup-anteriores" step="0.1" placeholder="Ej: 35.0" oninput="calculateMixed()">
+                </div>
+                <div class="form-group">
+                  <label>Espacio Disponible Sup. (mm)</label>
+                  <input type="number" class="form-input" id="mix-espacio-sup" step="0.1" placeholder="Ej: 38.0" oninput="calculateMixed()">
+                </div>
+                <h3 style="margin-top: var(--space-24);">📏 Dientes Permanentes en Arcada Inferior</h3>
+                <div class="form-group">
+                  <label>Incisivos Centrales y Laterales + Caninos (mm)</label>
+                  <input type="number" class="form-input" id="mix-inf-anteriores" step="0.1" placeholder="Ej: 32.5" oninput="calculateMixed()">
+                </div>
+                <div class="form-group">
+                  <label>Espacio Disponible Inf. (mm)</label>
+                  <input type="number" class="form-input" id="mix-espacio-inf" step="0.1" placeholder="Ej: 34.0" oninput="calculateMixed()">
+                </div>
+                <button class="btn btn-secondary" onclick="loadMixedExample()">🧪 Ejemplo Mixto</button>
+              </div>
+              <div class="card">
+                <h3>📊 Resultados Mixtos</h3>
+                <div class="result-item">
+                  <div class="result-label">Discrepancia Superior</div>
+                  <div class="result-value" id="mix-disc-sup">— mm</div>
+                </div>
+                <div class="result-item">
+                  <div class="result-label">Discrepancia Inferior</div>
+                  <div class="result-value" id="mix-disc-inf">— mm</div>
+                </div>
+                <div class="recommendation">
+                  <div class="recommendation-title">🩺 Recomendación Interceptar</div>
+                  <div class="recommendation-text" id="mix-recommendation">Ingrese datos para diagnóstico</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 💰 Sección 4: Catálogo -->
+      <!-- 💰 Módulo 4: Catálogo Gniius -->
       <section id="catalogo" class="tab-content">
         <div class="catalog-header">
-          <h1>Gniius — DentiStudio, Centro Integral Infantil y Familiar</h1>
-          <p>Ayacucho, Huamanga</p>
+          <h1>🌟 Gniius — DentiStudio</h1>
+          <p>Centro Integral Infantil y Familiar · Ayacucho</p>
           <button class="btn-edit" onclick="mostrarEdicionPrecios()">⚙️ Editar Precios</button>
         </div>
         <div class="services-grid" id="servicesGrid"></div>
+
+        <!-- ✏️ Edición de Precios -->
         <div class="price-management" id="priceManagement">
           <div class="price-header">
-            <h2>Administrar Precios</h2>
+            <h2>✏️ Administrar Precios e Imágenes</h2>
             <div class="btn-group">
-              <button class="btn btn-secondary" onclick="cancelarEdicionPrecios()">Cancelar</button>
-              <button class="btn btn-primary" onclick="guardarCambiosPrecios()">Guardar Cambios</button>
+              <button class="btn btn-secondary" onclick="cancelarEdicionPrecios()">❌ Cancelar</button>
+              <button class="btn btn-primary" onclick="guardarCambiosPrecios()">✅ Guardar Cambios</button>
             </div>
           </div>
           <div class="price-list" id="priceList"></div>
@@ -441,7 +450,7 @@
       </section>
     </main>
 
-    <!-- Modal común -->
+    <!-- 🖼️ Modal de Servicio -->
     <div class="modal" id="modal">
       <div class="modal__content">
         <button class="modal__close" id="modalClose">&times;</button>
@@ -450,11 +459,12 @@
           <h2 id="modalTitle"></h2>
           <div id="modalPrice"></div>
           <p id="modalDescription"></p>
+          <button class="btn btn-primary" onclick="agendarDesdeModal()">📅 Agendar Cita</button>
         </div>
       </div>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
+  </div>
 </body>
 </html>
